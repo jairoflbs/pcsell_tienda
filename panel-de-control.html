@@ -1,0 +1,473 @@
+<?php
+include_once "comprobarSesion.php";
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>PCSell - Panel de Control</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/pcsell.ico">
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/templatemo.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+    <style>
+        table {
+            width: 100%;
+            word-wrap: break-word;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .table-empty-message {
+            text-align: center;
+            font-size: 1.2em;
+            color: #777;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-light shadow">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">
+                <img src="img/index/logo.png" style="max-width: 300px; max-height: 100px;" alt="Logo de la empresa">
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between"
+                id="templatemo_main_nav">
+                <div class="flex-fill">
+                    <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="about.html">Acerca de</a></li>
+                        <li class="nav-item"><a class="nav-link" href="tienda.html">Tienda</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="navbar align-self-center d-flex">
+                    
+                    
+                    <a class="nav-icon position-relative text-decoration-none" href="carrito.html">
+                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                        <span
+                            class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                    </a>
+                    <a class="nav-icon position-relative text-decoration-none" href="perfil.html">
+                        <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                        <span
+                            class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Panel de Control de Administrador</h1>
+        <div class="row" id="cards">
+            <div class="col-md-6 mb-4">
+                <div class="card text-center h-100" onclick="fetchData('getPedidos'); mostrarMenuActualizarEstado();">
+                    <div class="card-body">
+                        <i class="fas fa-clipboard-list fa-3x mb-3"></i>
+                        <h5 class="card-title">Listado de pedidos</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card text-center h-100" onclick="fetchData('getUsuarios')">
+                    <div class="card-body">
+                        <i class="fas fa-users fa-3x mb-3"></i>
+                        <h5 class="card-title">Listado de usuarios</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card text-center h-100" onclick="fetchData('getDevoluciones'); mostrarMenuActualizarEstadoDevolucion()">
+                    <div class="card-body">
+                        <i class="fas fa-undo fa-3x mb-3"></i>
+                        <h5 class="card-title">Listado de devoluciones</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card text-center h-100" onclick="fetchData('getMensajes')">
+                    <div class="card-body">
+                        <i class="fas fa-envelope fa-3x mb-3"></i>
+                        <h5 class="card-title">Listado de mensajes</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="content" style="display:none;">
+            <button class="btn btn-secondary mb-4" onclick="showCards()">Volver al menú</button>
+            <div id="data" class="table-responsive"></div>
+            <div id="empty-message" class="table-empty-message" style="display:none;">No hay datos disponibles.</div>
+        </div>
+    </div>
+    <div id="update-order-status" style="display: none; margin: 5%; ">
+        <!-- Menú de actualización de estado de pedido -->
+        <div class="col-md-6 mt-5 mb-5">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-sync fa-3x mb-3"></i>
+                    <h5 class="card-title">Actualizar estado de pedido</h5>
+                    <div class="mb-3">
+                        <label for="dropdownProductos">Seleccionar producto</label>
+                        <select class="form-select" id="dropdownProductos">
+                            <!-- Aquí se agregarán dinámicamente los productos -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dropdownEstado">Seleccionar estado</label>
+                        <select class="form-select" id="dropdownEstado">
+                            <option value="devolucion">Envío aceptado</option>
+                            <option value="cancelado">Envío denegado</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary mt-3"
+                        onclick="actualizarEstadoPedido($('#dropdownProductos').val(), $('#dropdownEstado').val())">Enviar</button>
+                    <button class="btn btn-red mt-3" onclick="showCards()">Volver al menú</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="update-devolution-status" style="display: none; margin: 5%;">
+        <!-- Menú de actualización de estado de devoluciones -->
+        <div class="col-md-6 mt-5 mb-5">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <i class="fas fa-sync fa-3x mb-3"></i>
+                    <h5 class="card-title">Actualizar estado de devolución</h5>
+                    <div class="mb-3">
+                        <label for="dropdownDevoluciones">Seleccionar devolución</label>
+                        <select class="form-select" id="dropdownDevoluciones">
+                            <!-- Aquí se agregarán dinámicamente las devoluciones -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dropdownEstadoDevolucion">Seleccionar estado</label>
+                        <select class="form-select" id="dropdownEstadoDevolucion">
+                            
+                            <option value="devolucion-aceptada">Aceptar devolución</option>
+                            <option value="devolucion-denegada">Denegar devolución</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary mt-3" onclick="actualizarEstadoDevolucion($('#dropdownDevoluciones').val(), $('#dropdownEstadoDevolucion').val())">Enviar</button>
+                    <button class="btn btn-red mt-3" onclick="showCards()">Volver al menú</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    <!-- Start Footer -->
+    <footer class="bg-dark" id="tempaltemo_footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-success border-bottom pb-3 border-light logo">PCSell</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li><i class="fas fa-map-marker-alt fa-fw"></i> C/Ejemplo de calle, 13.</li>
+                        <li><i class="fa fa-phone fa-fw"></i> <a class="text-decoration-none"
+                                href="tel:010-020-0340">010-020-0340</a></li>
+                        <li><i class="fa fa-envelope fa-fw"></i> <a class="text-decoration-none"
+                                href="mailto:info@company.com">pcsell@shop.es</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-light border-bottom pb-3 border-light">Productos</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li><a class="text-decoration-none" href="#">Ordenadores</a></li>
+                        <li><a class="text-decoration-none" href="#">Periféricos</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-light border-bottom pb-3 border-light">Información Adicional</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li><a class="text-decoration-none" href="index.html">Inicio</a></li>
+                        <li><a class="text-decoration-none" href="about.html">Nosotros</a></li>
+                        <li><a class="text-decoration-none" href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row text-light mb-4">
+                <div class="col-12 mb-3">
+                    <div class="w-100 my-3 border-top border-light"></div>
+                </div>
+                <div class="col-auto me-auto">
+                    <ul class="list-inline text-left footer-icons">
+                        <li class="list-inline-item border border-light rounded-circle text-center">
+                            <a class="text-light text-decoration-none" target="_blank" href="http://facebook.com/"><i
+                                    class="fab fa-facebook-f fa-lg fa-fw"></i></a>
+                        </li>
+                        <li class="list-inline-item border border-light rounded-circle text-center">
+                            <a class="text-light text-decoration-none" target="_blank"
+                                href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
+                        </li>
+                        <li class="list-inline-item border border-light rounded-circle text-center">
+                            <a class="text-light text-decoration-none" target="_blank" href="http://twitter.com/"><i
+                                    class="fab fa-twitter fa-lg fa-fw"></i></a>
+                        </li>
+                        <li class="list-inline-item border border-light rounded-circle text-center">
+                            <a class="text-light text-decoration-none" target="_blank"
+                                href="https://www.linkedin.com/"><i class="fab fa-linkedin fa-lg fa-fw"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+        <div class="w-100 bg-black py-3">
+            <div class="container">
+                <div class="row pt-2">
+                    <div class="col-12">
+                        <p class="text-left text-light">© 2022 PCSell: Tienda en Línea. Todos los derechos reservados |
+                            Diseñado por <a rel="sponsored" class="text-success">Jairo
+                                Flores Bouzas</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer -->
+
+    <!-- Start Script -->
+    <script src="assets/js/jquery-1.11.0.min.js"></script>
+    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/templatemo.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script>
+        function fetchData(action) {
+            $.ajax({
+                url: '../PCSell/phpfiles/selectAdministrador.php', 
+                type: 'POST',
+                data: { action: action },
+                success: function (response) {
+                    try {
+                        const result = JSON.parse(response);
+                        if (result.error) {
+                            alert(result.error);
+                            return;
+                        }
+
+                        const columns = result.columns;
+                        const data = result.data;
+
+                        if (data.length === 0) {
+                            $('#empty-message').show();
+                            $('#data').html('');
+                        } else {
+                            let html = '<table class="table table-striped"><thead><tr>';
+                            columns.forEach(column => {
+                                html += `<th>${column}</th>`;
+                            });
+                            html += '</tr></thead><tbody>';
+
+                            data.forEach(row => {
+                                html += '<tr>';
+                                columns.forEach(column => {
+                                    html += `<td>${row[column]}</td>`;
+                                });
+                                html += '</tr>';
+                            });
+                            html += '</tbody></table>';
+
+                            $('#data').html(html);
+                            $('#empty-message').hide();
+                        }
+
+                        $('#cards').hide();
+                        $('#content').show();
+                    } catch (e) {
+                        alert('No hay datos en la tabla.');
+                    }
+                },
+                error: function () {
+                    alert('Hubo un error al procesar la solicitud.');
+                }
+            });
+        }
+
+        function mostrarMenuActualizarEstado() {
+            $.ajax({
+                url: '../PCSell/phpfiles/selectAdministrador.php',
+                type: 'POST',
+                data: { action: 'getPedidos' },
+                success: function (response) {
+                    try {
+                        const result = JSON.parse(response);
+                        if (result.error) {
+                            alert(result.error);
+                            return;
+                        }
+
+                        const productos = result.data;
+                        let selectHTML = '';
+                        productos.forEach(producto => {
+                            selectHTML += `<option value="${producto.ID_pedido}" data-estado="${producto.Estado_pedido}">Producto ${producto.ID_pedido} del ${producto.Fecha_hora_pedido} | Estado: ${producto.Estado_pedido}</option>`;
+                        });
+
+                        $('#dropdownProductos').html(selectHTML);
+
+                        
+                        $('#dropdownProductos').change(function () {
+                            const idPedido = $(this).val();
+                            const estadoPedido = $(this).find('option:selected').data('estado');
+                            $('#dropdownEstado').data('id-pedido', idPedido);
+                            $('#dropdownEstado').data('estado-actual', estadoPedido);
+                        });
+
+                       
+                        $('#update-order-status .btn-primary').click(function (e) {
+                            e.preventDefault();
+                            const idPedido = $('#dropdownProductos').val(); 
+                            const nuevoEstado = $('#dropdownEstado').val(); 
+                            if (idPedido !== undefined && nuevoEstado !== '') {
+                                actualizarEstadoPedido(idPedido, nuevoEstado);
+                            } else {
+                                alert('Por favor, seleccione un estado para el pedido.');
+                            }
+                        });
+                    } catch (e) {
+                        alert('Error al procesar los datos de productos: ' + e.message);
+                    }
+                },
+                error: function () {
+                    alert('Hubo un error al obtener los productos.');
+                }
+            });
+
+            $('#cards').hide();
+            $('#update-order-status').show();
+        }
+
+        function actualizarEstadoPedido(idPedido, nuevoEstado) {
+
+            $.ajax({
+                url: '../PCSell/phpfiles/selectAdministrador.php',
+                type: 'POST',
+                data: {
+                    action: 'updateEstadoPedidos',
+                    estado: nuevoEstado,
+                    id_pedido: idPedido
+                },
+                success: function (response) {
+                    try {
+                        console.log("Estado del pedido actualizado correctamente");
+                    } catch (e) {
+                        alert('Error al procesar la respuesta: ' + e.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error en la solicitud AJAX: ' + status + ' - ' + error);
+                }
+            });
+        }
+
+        function mostrarMenuActualizarEstadoDevolucion() {
+            $.ajax({
+                url: '../PCSell/phpfiles/selectAdministrador.php',
+                type: 'POST',
+                data: { action: 'getDevoluciones' },
+                success: function (response) {
+                    try {
+                        const result = JSON.parse(response);
+                        if (result.error) {
+                            alert(result.error);
+                            return;
+                        }
+
+                        const devoluciones = result.data;
+                        let selectHTML = '';
+                        devoluciones.forEach(devolucion => {
+                            selectHTML += `<option value="${devolucion.ID_devolucion}" data-estado="${devolucion.Estado_devolucion}">Devolución ${devolucion.ID_devolucion} del ${devolucion.Fecha_hora_devolucion} | Estado: ${devolucion.Estado_devolucion}</option>`;
+                        });
+
+                        $('#dropdownDevoluciones').html(selectHTML);
+
+                        $('#dropdownDevoluciones').change(function () {
+                            const idDevolucion = $(this).val();
+                            const estadoDevolucion = $(this).find('option:selected').data('estado');
+                            $('#dropdownEstadoDevolucion').data('id-devolucion', idDevolucion);
+                            $('#dropdownEstadoDevolucion').data('estado-actual', estadoDevolucion);
+                        });
+
+                       
+                        $('#update-devolution-status .btn-primary').click(function (e) {
+                            e.preventDefault();
+                            const idDevolucion = $('#dropdownDevoluciones').val();
+                            const nuevoEstado = $('#dropdownEstadoDevolucion').val();
+                            if (idDevolucion !== undefined && nuevoEstado !== '') {
+                                actualizarEstadoDevolucion(idDevolucion, nuevoEstado);
+                            } else {
+                                alert('Por favor, seleccione un estado para la devolución.');
+                            }
+                        });
+                    } catch (e) {
+                        alert('Error al procesar los datos de devoluciones: ' + e.message);
+                    }
+                },
+                error: function () {
+                    alert('Hubo un error al obtener las devoluciones.');
+                }
+            });
+
+            $('#cards').hide();
+            $('#update-devolution-status').show();
+        }
+
+        function actualizarEstadoDevolucion(idDevolucion, nuevoEstado) {
+    $.ajax({
+        url: '../PCSell/phpfiles/selectAdministrador.php',
+        type: 'POST',
+        data: {
+            action: 'updateEstadoDevoluciones',
+            estado_devolucion: nuevoEstado,
+            id_devolucion: idDevolucion
+        },
+        success: function (response) {
+            try {
+                console.log("Estado de la devolución actualizado correctamente");
+                
+            } catch (e) {
+                alert('Error al procesar la respuesta: ' + e.message);
+            }
+        },
+        error: function (xhr, status, error) {
+            alert('Error en la solicitud AJAX: ' + status + ' - ' + error);
+        }
+    });
+}
+
+        function showCards() {
+            $('#update-devolution-status').hide();
+            $('#update-order-status').hide();
+            $('#content').hide();
+            $('#cards').show();
+        }
+    </script>
+    <!-- End Script -->
+</body>
+
+</html>

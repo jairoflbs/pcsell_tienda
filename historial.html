@@ -1,0 +1,364 @@
+<?php
+include_once "comprobarSesion.php";
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>PCSell - Perfil</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/pcsell.ico">
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/templatemo.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+
+    <!-- Slick -->
+    <link rel="stylesheet" type="text/css" href="assets/css/slick.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/slick-theme.css">
+
+
+
+</head>
+
+<style>
+    .product-image {
+        width: 150px;
+       
+        height: auto;
+        float: left;
+        margin-right: 10px;
+        
+    }
+
+    .product-card {
+        margin: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    .order-details {
+        display: none;
+    }
+
+    .order-details.active {
+        display: block;
+    }
+</style>
+
+<body>
+    <!-- Start Top Nav -->
+    <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+        <div class="container text-light">
+            <div class="w-100 d-flex justify-content-between">
+                <div>
+                    <i class="fa fa-envelope mx-2"></i>
+                    <a class="navbar-sm-brand text-light text-decoration-none"
+                        href="mailto:info@company.com">info@company.com</a>
+                    <i class="fa fa-phone mx-2"></i>
+                    <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
+                </div>
+                <div>
+                    <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i
+                            class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                    <a class="text-light" href="https://www.instagram.com/" target="_blank"><i
+                            class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                    <a class="text-light" href="https://twitter.com/" target="_blank"><i
+                            class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+                    <a class="text-light" href="https://www.linkedin.com/" target="_blank"><i
+                            class="fab fa-linkedin fa-sm fa-fw"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Close Top Nav -->
+
+
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-light shadow">
+        <div class="container d-flex justify-content-between align-items-center">
+
+            <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">
+                <img src="img/index/logo.png" style="max-width: 300px; max-height: 100px;" alt="Logo de la empresa">
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between"
+                id="templatemo_main_nav">
+                <div class="flex-fill">
+                    <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">Acerca de</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="tienda.html">Tienda</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contacto.html">Contacto</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="navbar align-self-center d-flex">
+                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                        
+                    </div>
+                    
+                    <a class="nav-icon position-relative text-decoration-none" href="carrito.html">
+                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                        <span
+                            class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                    </a>
+                    <a class="nav-icon position-relative text-decoration-none" href="perfil.html">
+                        <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                        <span
+                            class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </nav>
+    <section class="m-5">
+        <h2>Listado de pedidos</h2>
+        <div id="pedidosContainer"></div>
+    </section>
+
+
+    <footer class="bg-dark" id="tempaltemo_footer">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-success border-bottom pb-3 border-light logo">PCSell</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li>
+                            <i class="fas fa-map-marker-alt fa-fw"></i>
+                            C/Ejemplo de calle, 13.
+                        </li>
+                        <li>
+                            <i class="fa fa-phone fa-fw"></i>
+                            <a class="text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope fa-fw"></i>
+                            <a class="text-decoration-none" href="mailto:info@company.com">pcsell@shop.es</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-light border-bottom pb-3 border-light">Productos</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li><a class="text-decoration-none" href="#">Ordenadores</a></li>
+                        <li><a class="text-decoration-none" href="#">Perifericos</a></li>
+
+                    </ul>
+                </div>
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-light border-bottom pb-3 border-light">Información Adicional</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li><a class="text-decoration-none" href="index.html">Inicio</a></li>
+                        <li><a class="text-decoration-none" href="about.html">Nosotros</a></li>
+                        <li><a class="text-decoration-none" href="contact.html">Contacto</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="row text-light mb-4">
+                <div class="col-12 mb-3">
+                    <div class="w-100 my-3 border-top border-light"></div>
+                </div>
+                <div class="col-auto me-auto">
+                    <ul class="list-inline text-left footer-icons">
+                        <li class="list-inline-item border border-light rounded-circle text-center">
+                            <a class="text-light text-decoration-none" target="_blank" href="http://facebook.com/"><i
+                                    class="fab fa-facebook-f fa-lg fa-fw"></i></a>
+                        </li>
+                        <li class="list-inline-item border border-light rounded-circle text-center">
+                            <a class="text-light text-decoration-none" target="_blank"
+                                href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
+                        </li>
+                        <li class="list-inline-item border border-light rounded-circle text-center">
+                            <a class="text-light text-decoration-none" target="_blank" href="http://twitter.com/"><i
+                                    class="fab fa-twitter fa-lg fa-fw"></i></a>
+                        </li>
+                        <li class="list-inline-item border border-light rounded-circle text-center">
+                            <a class="text-light text-decoration-none" target="_blank"
+                                href="https://www.linkedin.com/"><i class="fab fa-linkedin fa-lg fa-fw"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="w-100 bg-black py-3">
+            <div class="container">
+                <div class="row pt-2">
+                    <div class="col-12">
+                        <p class="text-left text-light">© 2022 PCSell: Tienda en Línea. Todos los derechos reservados
+                            | Diseñado por <a rel="sponsored" class="text-success">Jairo
+                                Flores Bouzas</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+    <!-- End Footer -->
+
+    <!-- Start Script -->
+    <script src="assets/js/jquery-1.11.0.min.js"></script>
+    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/templatemo.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <!-- End Script -->
+
+    <!-- Start Slider Script -->
+    <script src="assets/js/slick.min.js"></script>
+    <script>
+        $('#carousel-related-product').slick({
+            infinite: true,
+            arrows: false,
+            slidesToShow: 4,
+            slidesToScroll: 3,
+            dots: true,
+            responsive: [{
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 3
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 3
+                }
+            }
+            ]
+        });
+    </script>
+    <script>
+        function cargarPedidos() {
+            $.ajax({
+                url: '../PCSell/phpfiles/listadoCompras.php', 
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    var html = '';
+                    $.each(response, function (index, pedido) {
+                        html += '<div class="card mb-3">';
+                        html += '<div class="card-header">';
+                        html += '<h5 class="mb-0">';
+                        html += '<button class="btn btn-link" type="button" data-bs-toggle="collapse" ';
+                        html += 'data-bs-target="#collapse-' + index + '" aria-expanded="true">';
+                        html += 'Pedido #' + pedido.idPedido + ' - ' + pedido.fecha;
+                        html += '</button>';
+                        html += '</h5>';
+                        html += '</div>';
+                        html += '<div id="collapse-' + index + '" class="collapse">';
+                        html += '<div class="card-body">';
+                        html += '<p>Estado: ' + pedido.estadoPedido + '</p>';
+                        html += '<p>Dirección de Envío: ' + pedido.direccion + '</p>';
+                        html += '<p>Detalles del Pedido:</p>';
+                        $.each(pedido.detalles, function (index, detalle) {
+                            html += '<div class="card mt-3">';
+                            html += '<div class="card-header">';
+                            html += detalle.nombreProducto;
+                            html += '</div>';
+                            html += '<div class="card-body row">';
+                            html += '<div class="col-md-6">';
+                            html += '<h5 class="card-title">' + detalle.nombreProducto + '</h5>';
+                            html += '<p class="card-text">Precio: ' + detalle.precio + '</p>';
+                            html += '<p class="card-text">Cantidad: ' + detalle.cantidad + '</p>';
+                            html += '<p class="card-text">Estado del Producto: ' + detalle.estadoProductoPedido + '</p>'; 
+                            html += '<p class="card-text">Fecha de compra: ' + pedido.fecha + '</p>';
+                           
+                            var fechaCompra = new Date(pedido.fecha);
+                            var diferenciaDias = Math.floor((new Date() - fechaCompra) / (1000 * 60 * 60 * 24));
+                            if (diferenciaDias <= 15 && detalle.estadoProductoPedido!= "En proceso de devolucion") {
+                                html += '<button class="btn btn-warning btn-devolucion" ' +
+                                    'data-nombre="' + detalle.nombreProducto + '" ' +
+                                    'data-precio="' + detalle.precio + '" ' +
+                                    'data-cantidad="' + detalle.cantidad + '" ' +
+                                    'data-imagen="' + detalle.imagenProducto + '" ' +
+                                    'data-id-pedido="' + pedido.idPedido + '" ' +
+                                    'data-id-detalle="' + detalle.idDetalle + '">Devolución</button>';
+                            }
+                            html += '</div>';
+                            html += '<div class="col-md-6 text-end">';
+                            html += '<img src="' + detalle.imagenProducto + '" alt="Imagen del Producto" class="product-image">';
+                            html += '</div>';
+                            html += '</div>'; 
+                            html += '</div>'; 
+                        });
+                        html += '</div>'; 
+                        html += '</div>';
+                        html += '</div>';
+                    });
+                    $('#pedidosContainer').html(html);
+                },
+                error: function () {
+                    $('#pedidosContainer').html('<div class="alert alert-danger mt-4" role="alert">Error al cargar los pedidos.</div>');
+                }
+            });
+        }
+    
+        $(document).on('click', '.btn-devolucion', function () {
+            var nombre = $(this).data('nombre');
+            var precio = $(this).data('precio');
+            var cantidad = $(this).data('cantidad');
+            var imagen = $(this).data('imagen');
+            var idPedido = $(this).data('id-pedido');
+            var idDetalle = $(this).data('id-detalle'); 
+    
+           
+            sessionStorage.setItem('nombreProductoDevolver', nombre);
+            sessionStorage.setItem('precioProductoDevolver', precio);
+            sessionStorage.setItem('cantidadProductoDevolver', cantidad);
+            sessionStorage.setItem('imagenProductoDevolver', imagen);
+            sessionStorage.setItem('idPedidoDevolver', idPedido);
+            sessionStorage.setItem('idDetalleProductoDevolver', idDetalle); 
+    
+            console.log(sessionStorage.getItem('idPedidoDevolver'));
+            console.log(sessionStorage.getItem('idDetalleProductoDevolver'));
+           
+            window.location.href = 'devoluciones.html';
+        });
+        $(document).ready(function () {
+            cargarPedidos();
+        });
+    </script>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+
+</html>

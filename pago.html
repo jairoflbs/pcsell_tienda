@@ -1,0 +1,508 @@
+<?php
+include_once "comprobarSesion.php";
+?>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>PCSell - Pago</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/pcsell.ico">
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/templatemo.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+
+    <!-- Cargar estilos de fuentes después de renderizar los estilos del diseño -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+
+</head>
+
+<body>
+    <!-- Inicio de la barra de navegación superior -->
+    <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+        <div class="container text-light">
+            <div class="w-100 d-flex justify-content-between">
+                <div>
+                    <i class="fa fa-envelope mx-2"></i>
+                    <a class="navbar-sm-brand text-light text-decoration-none"
+                        href="mailto:info@company.com">pcsell@shop.es</a>
+                    <i class="fa fa-phone mx-2"></i>
+                    <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
+                </div>
+                <div>
+                    <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i
+                            class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                    <a class="text-light" href="https://www.instagram.com/" target="_blank"><i
+                            class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                    <a class="text-light" href="https://twitter.com/" target="_blank"><i
+                            class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+                    <a class="text-light" href="https://www.linkedin.com/" target="_blank"><i
+                            class="fab fa-linkedin fa-sm fa-fw"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Cierre de la barra de navegación superior -->
+
+
+    <!-- Encabezado -->
+    <nav class="navbar navbar-expand-lg navbar-light shadow">
+        <div class="container d-flex justify-content-between align-items-center">
+
+            <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">
+                <img src="img/index/logo.png" style="max-width: 300px; max-height: 100px;" alt="Logo de la empresa">
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between"
+                id="templatemo_main_nav">
+                <div class="flex-fill">
+                    <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">Acerca de</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="tienda.html">Tienda</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contacto.html">Contacto</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="navbar align-self-center d-flex">
+                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                        
+                    </div>
+                    
+                    <a class="nav-icon position-relative text-decoration-none" href="carrito.html">
+                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                        <span
+                            class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                    </a>
+                    <a class="nav-icon position-relative text-decoration-none" href="perfil.html">
+                        <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                        <span
+                            class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </nav>
+    <!-- Cierre del encabezado -->
+
+    <!-- Modal -->
+    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="w-100 pt-1 mb-5 text-right">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <form action="" method="get" class="modal-content modal-body border-0 p-0">
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Buscar ...">
+                    <button type="submit" class="input-group-text bg-success text-light">
+                        <i class="fa fa-fw fa-search text-white"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row g-5 m-3 p-4 mx-auto col-md-10 shadow-lg ventanaPago ">
+            <div class="col-md-5 col-lg-4 order-md-last">
+                <h4 class="d-flex justify-content-between align-items-center mb-3"> <span class="text-primary">tu
+                        carrito</span> <span class="badge bg-primary rounded-pill"></span> </h4>
+                <ul class="list-group mb-3" id="lista-productos">
+                    <!-- Los productos se agregarán aquí dinámicamente -->
+                </ul>
+                <ul class="list-group mb-3" id="total-pedido">
+                    <!-- El total del pedido se agregará aquí dinámicamente -->
+                </ul>
+            </div>
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3">Dirección de Envio</h4>
+                <form class="needs-validation was-validated" novalidate="">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label for="firstName" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+                            <div class="invalid-feedback">
+                                Introduce un nombre.
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="lastName" class="form-label">Apellidos</label>
+                            <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
+                            <div class="invalid-feedback">
+                                Introduce los apellidos.
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="username" class="form-label">Nombre de usuario</label>
+                            <div class="input-group has-validation">
+                                <span class="input-group-text">@</span>
+                                <input type="text" class="form-control" id="username" placeholder="Nombre de usuario"
+                                    required="">
+                                <div class="invalid-feedback">
+                                    Introduce un nombre de usuario.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="email" class="form-label">Correo electrónico <span
+                                    class="text-muted">(Opcional)</span></label>
+                            <input type="email" class="form-control" id="email" placeholder="tu@ejemplo.com">
+                            <div class="invalid-feedback">
+                                Introduce un correo válido.
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="address" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" id="address" placeholder="1234 calle principal"
+                                required="">
+                            <div class="invalid-feedback">
+                                Introduce una dirección de envío.
+                            </div>
+                        </div>
+
+                        <div class="col-md-5">
+                            <label for="country" class="form-label">País</label>
+                            <select class="form-select" id="country" required="">
+                                <option value="">Elegir...</option>
+                                <option>Alemania</option>
+                                <option>Austria</option>
+                                <option>Bélgica</option>
+                                <option>Bulgaria</option>
+                                <option>Chipre</option>
+                                <option>Croacia</option>
+                                <option>Dinamarca</option>
+                                <option>Eslovaquia</option>
+                                <option>Eslovenia</option>
+                                <option>España</option>
+                                <option>Estonia</option>
+                                <option>Finlandia</option>
+                                <option>Francia</option>
+                                <option>Grecia</option>
+                                <option>Hungría</option>
+                                <option>Irlanda</option>
+                                <option>Italia</option>
+                                <option>Letonia</option>
+                                <option>Lituania</option>
+                                <option>Luxemburgo</option>
+                                <option>Malta</option>
+                                <option>Países Bajos</option>
+                                <option>Polonia</option>
+                                <option>Portugal</option>
+                                <option>Rumanía</option>
+                                <option>Suecia</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Selecciona un país.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    <h4 class="mb-3">Pago</h4>
+
+                    <div class="row gy-3">
+                        <div class="col-md-6">
+                            <label for="cc-name" class="form-label">Nombre en la tarjeta</label>
+                            <input type="text" class="form-control" id="cc-name" placeholder="" required="">
+                            <small class="text-muted">Nombre completo como se muestra en la tarjeta</small>
+                            <div class="invalid-feedback">
+                                Introduce el propietario de la tarjeta.
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cc-number" class="form-label">Número de Tarjeta de Crédito</label>
+                            <input type="text" class="form-control" id="cc-number" placeholder="" required="">
+                            <div class="invalid-feedback">
+                                Introduce tarjeta de crédito.
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="cc-expiration" class="form-label">Vencimiento</label>
+                            <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
+                            <div class="invalid-feedback">
+                                Introduce fecha de vencimiento.
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="cc-cvv" class="form-label">CVV</label>
+                            <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
+                            <div class="invalid-feedback">
+                                Introduce el código de seguridad.
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <button class="w-100 btn btn-primary btn-lg" type="button" onclick="enviarPedido()">Continuar a la
+                        comprobación</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="bg-dark" id="tempaltemo_footer">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-success border-bottom pb-3 border-light logo">PCSell</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li>
+                            <i class="fas fa-map-marker-alt fa-fw"></i>
+                            C/Ejemplo de calle, 13.
+                        </li>
+                        <li>
+                            <i class="fa fa-phone fa-fw"></i>
+                            <a class="text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope fa-fw"></i>
+                            <a class="text-decoration-none" href="mailto:info@company.com">pcsell@shop.es</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-light border-bottom pb-3 border-light">Productos</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li><a class="text-decoration-none" href="#">Ordenadores</a></li>
+                        <li><a class="text-decoration-none" href="#">Perifericos</a></li>
+
+                    </ul>
+                </div>
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-light border-bottom pb-3 border-light">Información Adicional</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li><a class="text-decoration-none" href="index.html">Inicio</a></li>
+                        <li><a class="text-decoration-none" href="about.html">Nosotros</a></li>
+                        <li><a class="text-decoration-none" href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="row text-light mb-4">
+                <div class="col-12 mb-3">
+                    <div class="w-100 my-3 border-top border-light"></div>
+                </div>
+                <div class="col-auto me-auto">
+                    <ul class="list-inline text-left footer-icons">
+                        <li class="list-inline-item border border-light rounded-circle text-center">
+                            <a class="text-light text-decoration-none" target="_blank" href="http://facebook.com/"><i
+                                    class="fab fa-facebook-f fa-lg fa-fw"></i></a>
+                        </li>
+                        <li class="list-inline-item border border-light rounded-circle text-center">
+                            <a class="text-light text-decoration-none" target="_blank"
+                                href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
+                        </li>
+                        <li class="list-inline-item border border-light rounded-circle text-center">
+                            <a class="text-light text-decoration-none" target="_blank" href="http://twitter.com/"><i
+                                    class="fab fa-twitter fa-lg fa-fw"></i></a>
+                        </li>
+                        <li class="list-inline-item border border-light rounded-circle text-center">
+                            <a class="text-light text-decoration-none" target="_blank"
+                                href="https://www.linkedin.com/"><i class="fab fa-linkedin fa-lg fa-fw"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="w-100 bg-black py-3">
+            <div class="container">
+                <div class="row pt-2">
+                    <div class="col-12">
+                        <p class="text-left text-light">© 2022 PCSell: Tienda en Línea. Todos los derechos reservados
+                            | Diseñado por <a rel="sponsored" class="text-success">Jairo
+                                Flores Bouzas</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            mostrarProductosCarrito();
+        });
+
+        function mostrarProductosCarrito() {
+            let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+            let cantidadProductos = 0;
+            let precioTotal = 0;
+
+            let listaProductos = document.getElementById("lista-productos");
+
+            listaProductos.innerHTML = "";
+
+            carrito.forEach(function (producto) {
+                let productoDiv = document.createElement("div");
+                productoDiv.classList.add("producto-carrito");
+                productoDiv.innerHTML = `
+            <h6 class="my-0">Nombre: ${producto.nombre}</h6>
+            <small>Cantidad: ${producto.cantidad}</small>
+            <span>Precio/unidad: ${producto.precio} EUR</span>
+        `;
+
+                listaProductos.appendChild(productoDiv);
+                cantidadProductos += parseInt(producto.cantidad);
+                precioTotal += parseFloat(producto.precio);
+            });
+
+            document.querySelector('.badge.bg-primary.rounded-pill').textContent = `Productos: ${cantidadProductos}`;
+
+            document.getElementById("total-pedido").innerHTML = `
+        <li class="list-group-item d-flex justify-content-between">
+            <span>Total (EUR)</span>
+            <strong>${precioTotal.toFixed(2)}</strong> 
+        </li>`;
+        }
+
+        function ejecutarPedido() {
+            
+            let nombre = document.getElementById("firstName").value;
+            let apellido = document.getElementById("lastName").value;
+            let nombreUsuario = document.getElementById("username").value;
+            let direccion = document.getElementById("address").value;
+            let email = document.getElementById("email").value;
+            let pais = document.getElementById("country").value;
+            let nombreTarjeta = document.getElementById("cc-name").value;
+            let numeroTarjeta = document.getElementById("cc-number").value;
+            let fechaCaducidad = document.getElementById("cc-expiration").value;
+            let cvv = document.getElementById("cc-cvv").value;
+
+            let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+
+            let totalPedido = carrito.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
+            console.log("carrito: ", carrito);
+            console.log(totalPedido);
+
+            let pedido = {
+                nombre: nombre,
+                apellido: apellido,
+                nombreUsuario: nombreUsuario,
+                direccion: direccion,
+                email: email,
+                pais: pais,
+                nombreTarjeta: nombreTarjeta,
+                numeroTarjeta: numeroTarjeta,
+                fechaCaducidad: fechaCaducidad,
+                cvv: cvv,
+                totalPedido: totalPedido,
+                productos: carrito
+            };
+
+            console.log(pedido);
+            
+            $.ajax({
+                type: "POST",
+                url: "../PCSell/phpfiles/insertarPedido.php", 
+                data: { pedido: JSON.stringify(pedido) },
+                success: function (response) {
+                    localStorage.removeItem("carrito");
+                    alert("Pedido realizado con éxito.");
+                    location.href = "index.html";
+                   
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error al procesar el pedido: " + error);
+                }
+            });
+        }
+
+        
+        function validarTarjeta() {
+            let ccNumber = document.getElementById("cc-number").value;
+            let ccCVV = document.getElementById("cc-cvv").value;
+            let ccExpiration = document.getElementById("cc-expiration").value;
+
+           
+            let regexCCNumber = /^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$/;
+            let regexCCCVV = /^[0-9]{3}$/;
+            let regexCCExpiration = /^[0-9]{2}\/[0-9]{2}$/;
+
+            
+            if (!regexCCNumber.test(ccNumber)) {
+                alert("Por favor, introduce un número de tarjeta de crédito válido en el formato XXXX-XXXX-XXXX-XXXX.");
+                return false;
+            }
+
+            if (!regexCCCVV.test(ccCVV)) {
+                alert("Por favor, introduce un CVV válido de tres dígitos.");
+                return false;
+            }
+
+            if (!regexCCExpiration.test(ccExpiration)) {
+                alert("Por favor, introduce una fecha de vencimiento válida en el formato MM/AA.");
+                return false;
+            }
+
+            return true;
+        }
+
+        
+        function validarCampos() {
+            let campos = document.querySelectorAll('input, select');
+            let isValid = true;
+
+            campos.forEach(function (campo) {
+                if (campo.hasAttribute('required') && !campo.value.trim()) {
+                    isValid = false;
+                    campo.classList.add('is-invalid');
+                } else {
+                    campo.classList.remove('is-invalid');
+                }
+            });
+
+            return isValid;
+        }
+
+       
+        function enviarPedido() {
+            if (!validarCampos()) {
+                alert("Por favor, completa todos los campos obligatorios.");
+                return;
+            }
+
+            if (!validarTarjeta()) {
+                return;
+            }
+
+            ejecutarPedido();
+        }
+    </script>
+    <!-- Fin Pie de Página -->
+
+    <script src="assets/js/jquery-1.11.0.min.js"></script>
+    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/templatemo.js"></script>
+    <script src="assets/js/custom.js"></script>
+</body>
+
+</html>
